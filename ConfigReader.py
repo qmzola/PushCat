@@ -10,7 +10,7 @@ class Users(BaseModel):
     user_id: int
     user_name: str
 
-# 读取钉钉的配置文件
+# 对读取到的ingTalk相关配置选项进行格式判断
 class DingTalk(BaseModel):
     enabled: bool = False
     access_token: Optional[str] = None
@@ -30,57 +30,17 @@ class DingTalk(BaseModel):
                 self.enabled = False
         return self
 
-
+# 主配置模型
 class Config(BaseModel):
-    """
-    主配置模型
-    """
     user: Users
     dingtalk: DingTalk
 
-
+# 读取toml文件
 def load_config(toml_file_path: str = "configs/config.toml") -> Config:
     with open(toml_file_path, "rb") as f:
         data = tomllib.load(f)
-        # Map the keys from the TOML file to the pydantic model fields
         mapped_data = {
             "user": data.get("Users"),
             "dingtalk": data.get("DingTalk")
         }
         return Config.model_validate(mapped_data)
-
-
-if __name__ == "__main__":
-    cfg = Users()
-    print(f"用户名：{cfg.user.name}，钉钉token：{cfg.dingtalk.webhook}")
-
-"""
-
-def load_config(toml_file: str = "config/config.toml") -> Config:
-    
-    # 从 TOML 文件加载配置
-    # 路径基于当前文件所在目录（config.py 所在目录）
-    
-    # 获取当前文件所在目录
-    current_dir = Path(__file__).parent
-    toml_path = current_dir / toml_file  # 假设 config.toml 在 config/ 子目录中
-
-    try:
-        with open(toml_path, "rb") as f:
-            toml_data = tomllib.load(f)
-    except FileNotFoundError:
-        raise FileNotFoundError(f"配置文件 {toml_path} 未找到")
-    except tomllib.TOMLDecodeError as e:
-        raise ValueError(f"配置文件格式错误: {e}")
-
-    try:
-        config = Config(**toml_data)
-        print(f"✅ 配置加载成功: {toml_path}")
-        return config
-    except Exception as e:
-        raise ValueError(f"配置验证失败: {e}")
-
-
-
-
-"""
