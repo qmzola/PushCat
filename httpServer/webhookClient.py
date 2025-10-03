@@ -1,6 +1,9 @@
 from flask import Blueprint,jsonify,request
 import sys
 import os
+from ConfigReader import load_config
+
+config=load_config()
 
 # 引入消息处理部分代码
 sys.path.append(os.path.abspath(("../magedit")))
@@ -12,6 +15,9 @@ webhook_client_bp = Blueprint('webhook_cclient_bp',__name__)
 #消息接受以及基本处理，并调用消息处理
 @webhook_client_bp.route('/webhookinput',methods=['POST'])
 def msg_input():
-    date= request.json
-    msgPrint.msg_print(date)
-    return 'Created',201
+    date = request.json
+    if date['token'] != config.input_token.access_token:
+        return 'Unauthorized', 401
+    else:
+        msgPrint.msg_print(date)
+        return 'Created',201

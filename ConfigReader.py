@@ -30,10 +30,14 @@ class DingTalk(BaseModel):
                 self.enabled = False
         return self
 
+class InputToken(BaseModel):
+    access_token:str
+
 # 主配置模型
 class Config(BaseModel):
     user: Users
     dingtalk: DingTalk
+    input_token: InputToken
 
 # 读取toml文件
 def load_config(toml_file_path: str = "configs/config.toml") -> Config:
@@ -41,6 +45,7 @@ def load_config(toml_file_path: str = "configs/config.toml") -> Config:
         data = tomllib.load(f)
         mapped_data = {
             "user": data.get("Users"),
-            "dingtalk": data.get("DingTalk")
+            "dingtalk": data.get("DingTalk"),
+            "input_token": data.get("InputToken")
         }
         return Config.model_validate(mapped_data)

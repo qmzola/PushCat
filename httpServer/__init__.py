@@ -1,5 +1,11 @@
 from flask import Flask
 from httpServer.webhookClient import webhook_client_bp
+from app_logging import get_logger
+
+logger=get_logger("httpServer")
+
+
+logger.info("This ia a Test log massage")
 
 # 创建 Flask 应用
 app = Flask(__name__)
@@ -11,3 +17,4 @@ app.register_blueprint(webhook_client_bp, url_prefix='/test')
 # 启动服务器
 def start_http_server():
     app.run(debug=True)
+
