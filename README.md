@@ -45,4 +45,24 @@
 - 自动化工作流提醒
 - 跨平台消息中转
 
-## 🧩 架构设计（规划中）
+## 配置文件模板
+
+配置文件使用TOML
+
+```TOML
+[DingTalk]
+enabled=true/flase
+access_token="钉钉平台access token"
+secret="secret"
+
+
+[Logging]
+log_dir = "日志位置。从main为基准，相对路径"
+console_level = "控制台打印的日志等级.从低到高为DEBUG/INFO/WARNING/ERROR/CRITCAL"
+file_level = "文件保存的的日志等级.从低到高为DEBUG/INFO/WARNING/ERROR/CRITCAL"
+retention_days = 日志保存的天数
+
+[InputToken]
+access_token="外部平台token"
+
+```
