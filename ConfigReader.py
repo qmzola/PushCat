@@ -26,7 +26,7 @@ class DingTalk(BaseModel):
             if not self.secret or not self.secret.strip():
                 missing.append("secret")
             if missing:
-                logging.ERROR(f"钉钉平台{', '.join(missing)}未配置，功能将被禁用。")
+                logging.error(f"钉钉平台{', '.join(missing)}未配置，功能将被禁用。")
                 self.enabled = False
         return self
 

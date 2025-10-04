@@ -25,19 +25,15 @@ def calculate_push_key():
     return f"timestamp={timestamp}&sign={sign}"
 
 
-#拼接DIngTalk WebHook地址
+# 拼接DIngTalk WebHook地址
 def url():
     push_keys = calculate_push_key()
     return f"https://oapi.dingtalk.com/robot/send?access_token={access_token}&{push_keys}"
 
 
-
-
-
-
 def push(message):
     at_all = message.get('at_all', False)
-    at_user_ids=message.get('at_user_ids',None)
+    at_user_ids = message.get('at_user_ids', None)
     message_title = message['message']['content'][0]['title']
     message_body = message['message']['content'][0]['body']
 
