@@ -6,7 +6,7 @@ import hmac
 import hashlib
 import base64
 import urllib.parse
-from ConfigReader import load_config
+from ConfigRead.ConfigReader import load_config
 
 config = load_config()
 

@@ -1,7 +1,7 @@
-from flask import Blueprint,jsonify,request
+from flask import Blueprint, request
 import sys
 import os
-from ConfigReader import load_config
+from ConfigRead.ConfigReader import load_config
 
 config=load_config()
 
@@ -16,7 +16,7 @@ webhook_client_bp = Blueprint('webhook_cclient_bp',__name__)
 @webhook_client_bp.route('/webhookinput',methods=['POST'])
 def msg_input():
     data = request.json
-    if data['token'] != config.input_token.access_token:
+    if data['token'] != config.input_token.input_access_token:
         return 'Unauthorized', 401
     else:
         msgPrint.msg_print(data)

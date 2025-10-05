@@ -1,0 +1,24 @@
+
+#WebUI内容，属于超前设计部分，暂时没有任何用处
+[Users]
+user_url="ty4bqpvm"
+user_name="admin"
+user_id=10001
+
+#钉钉平台的配置
+[DingTalk]
+enabled=false #开启状态，true为开，false为关，默认为false
+access_token="" #钉钉平台的access token.可在钉钉平台给的URL中找到，例如https://oapi.dingtalk.com/robot/send?access_token=123456，这里只需要123456那部分。根据实际情况填写。
+secret="" #加签所需的签名，钉钉单独给出的
+
+#日志配置
+[Logging]
+log_dir = "logs" #日志存储目录，默认在运行文件夹下logs文件夹
+console_level = "INFO" #控制台输出的日志等级，默认为info
+file_level = "DEBUG" #保存到文件的日志等级，默认为debug
+retention_days = 30 #日志文件保存的天数，默认为30天
+
+#输入Token
+[InputToken]
+#可以自行配置。在传入消息时用于判断消息合法性的数据。
+input_access_token=""

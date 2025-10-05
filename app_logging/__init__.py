@@ -1,8 +1,7 @@
 import tomllib
 from .log_utils import setup_logging, get_logger
-from pydantic import BaseModel
+from pydantic import BaseModel,ValidationError
 from enum import Enum
-from pydantic import ValidationError
 
 
 # 配置配置文件校验模型
@@ -22,10 +21,16 @@ class LoggingConfig(BaseModel):
 
 
 # 从配置文件加载日志配置
+from pathlib import Path
+
+config_path = Path("configs/config.toml")
 try:
-    with open("configs/config.toml", "rb") as f:
-        config = tomllib.load(f).get("Logging", {})
-except (FileNotFoundError, tomllib.TOMLDecodeError):
+    if config_path.exists():
+        with open(config_path, "rb") as f:
+            config = tomllib.load(f).get("Logging", {})
+    else:
+        config = {}
+except (FileNotFoundError, tomllib.TOMLDecodeError, OSError):
     config = {}
 
 # 使用 LoggingConfig 模型验证配置
