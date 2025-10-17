@@ -2,13 +2,9 @@ from flask import Blueprint, request
 import sys
 import os
 from ConfigRead.ConfigReader import load_config
-
-config=load_config()
-
-# 引入消息处理部分代码
-sys.path.append(os.path.abspath(("../magedit")))
 from msgedit import msgPrint
 
+config=load_config()
 #创建一个蓝图对象
 webhook_client_bp = Blueprint('webhook_cclient_bp',__name__)
 

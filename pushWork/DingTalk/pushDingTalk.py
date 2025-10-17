@@ -7,6 +7,9 @@ import hashlib
 import base64
 import urllib.parse
 from ConfigRead.ConfigReader import load_config
+from app_logging import get_logger
+
+logger = get_logger("DingTalkPush")
 
 config = load_config()
 
@@ -57,11 +60,11 @@ def push(message):
         if response.status_code == 200:
             result = response.json()
             if result.get('errcode') == 0:
-                print("消息发送成功！")
+                logger.info("消息发送成功！")
             else:
-                print(f"消息发送失败，错误码：{result['errcode']}, 说明：{result['errmsg']}")
+                logger.error(f"消息发送失败，错误码：{result['errcode']}, 说明：{result['errmsg']}")
         else:
-            print(f"请求失败，状态码：{response.status_code}, 响应内容：{response.text}")
+            logger.error(f"请求失败，状态码：{response.status_code}, 响应内容：{response.text}")
 
     except Exception as e:
-        print(f"发送消息时发生错误：{e}")
+        logger.error(f"发送消息时发生错误：{e}")

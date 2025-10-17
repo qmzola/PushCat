@@ -13,4 +13,4 @@ app.register_blueprint(webhook_client_bp, url_prefix='/test')
 
 # 启动服务器
 def start_http_server():
-    app.run(debug=True)
+    app.run(debug=False)
