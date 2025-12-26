@@ -38,6 +38,7 @@ from pydantic import Field
 
 class InputToken(BaseModel):
     input_access_token: str
+    url_access_token: str
 
 # 主配置模型
 class Config(BaseModel):
@@ -67,9 +68,16 @@ def load_config(toml_file_path: str = str(Path("configs") / "config.toml")) -> C
         config_path.parent.mkdir(exist_ok=True)
         with open(config_template_file, 'r', encoding='utf-8') as template_file:
             template_content = template_file.read()
-        generated_token = secrets.token_hex()
-        logger.info(f"你的InputToken为{generated_token}")
-        updated_content = template_content.replace('input_access_token=""', f'input_access_token="{generated_token}"')
+        message_input_generated_token = secrets.token_hex()
+        url_input_generated_token=secrets.token_hex(8)
+        logger.info(f"你的Input massage token已写入到{config_path}")
+        logger.info(f"你的Web URL input token已写入到{config_path}")
+        logger.info(f"请到{config_path}查看token")
+        updated_content = (
+            template_content
+            .replace('input_access_token=""',f'input_access_token="{message_input_generated_token}"')
+            .replace('url_access_token=""', f'url_access_token="{url_input_generated_token}"')
+        )
         with open(config_path, 'w', encoding='utf-8') as new_config:
             new_config.write(updated_content)
         with open(config_path, "rb") as f:#重新读取配置文件

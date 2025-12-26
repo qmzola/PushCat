@@ -22,3 +22,4 @@ retention_days = 30 #日志文件保存的天数，默认为30天
 [InputToken]
 #可以自行配置。在传入消息时用于判断消息合法性的数据。
 input_access_token=""
+url_access_token=""
