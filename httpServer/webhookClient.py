@@ -16,11 +16,11 @@ def msg_input_check(url_token):
     try:
         if url_token != config.input_token.url_access_token:
             logging.debug(f"收到/webhookinput/{url_token}的无效请求，已忽略。原因是请求URL Token不正确。")
-            return 'Unauthorized', 401
+            return 'Not Found', 404
         data = request.json
         if data['token'] != config.input_token.input_access_token:
             logging.debug(f"收到/webhookinput/{url_token}的无效请求，已忽略。原因是请求内容Token不正确。")
-            return 'Unauthorized', 401
+            return 'Forbidden', 403
         else:
             msgPrint.msg_print(data)
             return 'Created',201
