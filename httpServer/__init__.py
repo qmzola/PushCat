@@ -1,6 +1,7 @@
 from flask import Flask
 from httpServer.webhookClient import webhook_client_bp
 from app_logging import get_logger
+import logging
 
 logger = get_logger("httpServer")
 
