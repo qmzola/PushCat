@@ -1,6 +1,5 @@
 import requests
 import json
-
 import time
 import hmac
 import hashlib
@@ -34,12 +33,48 @@ def url():
     return f"https://oapi.dingtalk.com/robot/send?access_token={access_token}&{push_keys}"
 
 
-def push(message):
-    at_all = message.get('at_all', False)
-    at_user_ids = message.get('at_user_ids', None)
-    message_title = message['message']['content'][0]['title']
-    message_body = message['message']['content'][0]['body']
+"""
+class MessageBody(BaseModel):
+    type: Literal["text"]
+    title: str
+    body: str
 
+class Message(BaseModel):
+    type: Literal["text"]
+    content: List[MessageBody]
+
+class WebhookRequest(BaseModel):
+    sender: str
+    time: str  # 通常为 ISO 8601 格式的时间字符串，如 "2026-01-14T10:00:00Z"
+    token: str
+    platform: List[str]  # 或更严格地用 Literal["DingTalk", ...] 如果平台固定
+    message: Message
+
+
+message.message.content.body
+message.message.title
+message.message.content
+"""
+
+
+def push(message):
+    message_body = message.message.content[0].body
+    message_title = message.message.content[0].title
+
+    """ at_all = message.get('at_all', False)
+    at_user_ids = message.get('at_user_ids', None)"""
+
+    body = {
+        "at": {
+            "isAtAll": False,  # 是否@所有人
+            "atUserIds": [],  # @用户ID列表
+        },
+        "text": {
+            "content": f"{message_title}\n{message_body}"  # 消息内容
+        },
+        "msgtype": "text"  # 消息类型为文本
+    }
+    """
     body = {
         "at": {
             "isAtAll": bool(at_all),  # 是否@所有人
@@ -49,7 +84,7 @@ def push(message):
             "content": f"{message_title}\n{message_body}"  # 消息内容
         },
         "msgtype": "text"  # 消息类型为文本
-    }
+    }"""
     try:
         headers = {'Content-Type': 'application/json'}
         response = requests.post(

@@ -45,5 +45,6 @@ async def webhook(url_keys: str,webhook_request: WebhookRequest):
     else:
         msgPrint.msg_print(webhook_request)
         return JSONResponse(
-            status_code=status.HTTP_200_OK,
+            status_code=status.HTTP_201_CREATED,
+            content={"message": "Success"}
         )
