@@ -6,7 +6,7 @@ logger = get_logger("MsgEdit")
 
 
 def msg_print(msg):
-    platforms = msg['platform']
+    platforms = msg.platform
     for platform in platforms:
         if platform == "DingTalk":
             pushWork.DingTalk.pushDingTalk.push(msg)

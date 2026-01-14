@@ -1,6 +1,5 @@
 import requests
 import json
-
 import time
 import hmac
 import hashlib
@@ -35,15 +34,17 @@ def url():
 
 
 def push(message):
-    at_all = message.get('at_all', False)
-    at_user_ids = message.get('at_user_ids', None)
-    message_title = message['message']['content'][0]['title']
-    message_body = message['message']['content'][0]['body']
+    message_body = message.message.content[0].body
+    message_title = message.message.content[0].title
 
+    """ at_all = message.get('at_all', False)
+    at_user_ids = message.get('at_user_ids', None)"""
+
+    #组装消息体
     body = {
         "at": {
-            "isAtAll": bool(at_all),  # 是否@所有人
-            "atUserIds": at_user_ids or [],  # @用户ID列表
+            "isAtAll": False,  # 是否@所有人
+            "atUserIds": [],  # @用户ID列表
         },
         "text": {
             "content": f"{message_title}\n{message_body}"  # 消息内容

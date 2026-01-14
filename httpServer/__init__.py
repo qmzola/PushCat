@@ -1,7 +1,13 @@
-from flask import Flask
+from .app import api
+
+__version__ = "1.0.0"
+
+
+"""from flask import Flask
 from httpServer.webhookClient import webhook_client_bp
 from app_logging import get_logger
 import logging
+import uvicorn
 
 logger = get_logger("httpServer")
 
@@ -15,3 +21,4 @@ app.register_blueprint(webhook_client_bp, url_prefix='/test')
 # 启动服务器
 def start_http_server():
     app.run(debug=False)
+"""
