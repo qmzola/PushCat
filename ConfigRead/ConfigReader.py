@@ -6,6 +6,7 @@ import logging
 from app_logging import logging_config, get_logger
 import shutil
 import secrets
+from pydantic.networks import IPvAnyAddress
 
 logger = get_logger("ConfigReader")
 
@@ -13,6 +14,10 @@ class Users(BaseModel):
     user_url: str
     user_id: int
     user_name: str
+
+class Server(BaseModel):
+    host: IPvAnyAddress = '0.0.0.0' ,
+    port: int = 5000
 
 # 对读取到的ingTalk相关配置选项进行格式判断
 class DingTalk(BaseModel):
@@ -34,17 +39,23 @@ class DingTalk(BaseModel):
                 self.enabled = False
         return self
 
-from pydantic import Field
 
 class InputToken(BaseModel):
     input_access_token: str
     url_access_token: str
+
+class Debug(BaseModel):
+    api_docs: bool = False
+    debug_mode: bool = False
 
 # 主配置模型
 class Config(BaseModel):
     user: Users
     dingtalk: DingTalk
     input_token: InputToken
+    debug: Debug
+    server: Server
+
 
 
 # 读取toml文件
@@ -59,8 +70,10 @@ def load_config(toml_file_path: str = str(Path("configs") / "config.toml")) -> C
             data = tomllib.load(f)
             mapped_data = {
                 "user": data.get("Users"),
+                "debug": data.get("Debug"),
+                "server": data.get("Server"),
                 "dingtalk": data.get("DingTalk"),
-                "input_token": data.get("InputToken")
+                "input_token": data.get("InputToken"),
             }
             return Config.model_validate(mapped_data)
     except (FileNotFoundError, PermissionError):  # 处理文件不存在或目录不存在的情况
@@ -84,7 +97,9 @@ def load_config(toml_file_path: str = str(Path("configs") / "config.toml")) -> C
             data = tomllib.load(f)
             mapped_data = {
                 "user": data.get("Users"),
+                "debug": data.get("Debug"),
                 "dingtalk": data.get("DingTalk"),
-                "input_token": data.get("InputToken")
+                "input_token": data.get("InputToken"),
+                "server": data.get("Server")
             }
             return Config.model_validate(mapped_data)
