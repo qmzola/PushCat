@@ -2,6 +2,8 @@
 
 > 多平台消息推送工具 | 跨平台通知聚合 | 模板化消息分发
 
+## 有点不想写了，我写这个的意义是什么
+
 ![Status](https://img.shields.io/badge/status-Alpha-orange)
 ![License](https://img.shields.io/badge/license-AGPL_v3-red)
 

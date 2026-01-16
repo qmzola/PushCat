@@ -2,8 +2,6 @@ import logging
 import queue
 import asyncio
 import httpServer
-import app_logging
-from ConfigRead.ConfigReader import load_config
 import sys
 from app_logging import get_logger
 from ConfigRead.ConfigReader import load_config
@@ -45,11 +43,3 @@ if __name__ == "__main__":
         reload= config.debug.debug_mode,
         workers=1,
     )
-
-
-
-
-
-"""
-httpServer.start_http_server()
-"""
